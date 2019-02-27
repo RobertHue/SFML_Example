@@ -1,4 +1,4 @@
-# Tree
-A simple templated Tree in C++ using standard containers
+# SFML
 
-progress status: Not done and fully tested yet
+A simple SFML example with cmake to work with as a starting point
+
