@@ -50,7 +50,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED system window graphics network audio)
 
 
-set(EXECUTABLE_NAME "Test.exe")
+set(EXECUTABLE_NAME "Test")
 
 ########################################
 ########################################
@@ -63,8 +63,13 @@ if( Boost_FOUND AND SFML_FOUND)
 	message(STATUS "sfml-dependencies : ${SFML_DEPENDENCIES}")
 	message(STATUS "Boost_LIBRARIES : ${Boost_LIBRARIES}")
 	
+	file(GLOB dependencies
+		"*.h"
+		"*.cpp"
+	)
+
 	include_directories(${Boost_INCLUDE_DIRS} ${SFML_INCLUDE_DIR})	
-	add_executable( ${EXECUTABLE_NAME} SFML.cpp	)	
+	add_executable( ${EXECUTABLE_NAME} ${dependencies}	)	
 	target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${Boost_LIBRARIES})
 endif()
 ########################################
