@@ -9,7 +9,9 @@ Player::Player(float factor)
 	m_name("TestName"),
 	m_health(100),
 	m_frequency(10),
-	m_position({ 22,33 })
+	m_speed(1),
+	m_position({ 22,33 }),
+	m_clock(sf::Clock())
 {
 
 	boost::filesystem::path fs_path("..\\Link.png");
@@ -52,38 +54,65 @@ void Player::setFrequency(int frequency)
 	m_frequency = frequency;
 }
 
-void Player::move(DIRECTION direction, int pixel)
+
+void Player::checkKeyboardInput()
 {
-	static bool test = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		this->move(DIRECTION::DOWN, m_speed);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		this->move(DIRECTION::LEFT, m_speed);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		this->move(DIRECTION::RIGHT, m_speed);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		this->move(DIRECTION::UP, m_speed);
+	}
+}
+
+void Player::move(DIRECTION direction, int speed)
+{
+	static bool toggleAnim = false;
 	SubTile spriteAnim = m_SubTileAnimationMap.at("point_down");
+	int pixel = speed;
 
 	switch (direction)
 	{
 	case DIRECTION::DOWN:
 		m_position.m_y += pixel;
-		if (test)	spriteAnim = m_SubTileAnimationMap.at("walk_down");
+		if (toggleAnim)	spriteAnim = m_SubTileAnimationMap.at("walk_down");
 		else		spriteAnim = m_SubTileAnimationMap.at("point_down");
-		spriteAnim = m_SubTileAnimationMap.at("point_down");
 		break;
 	case DIRECTION::LEFT:
 		m_position.m_x -= pixel;
-		if (test)	spriteAnim = m_SubTileAnimationMap.at("walk_left");
+		if (toggleAnim)	spriteAnim = m_SubTileAnimationMap.at("walk_left");
 		else		spriteAnim = m_SubTileAnimationMap.at("point_left");
 		break;
 	case DIRECTION::RIGHT:
 		m_position.m_x += pixel;
-		if(test)	spriteAnim = m_SubTileAnimationMap.at("walk_right");
+		if(toggleAnim)	spriteAnim = m_SubTileAnimationMap.at("walk_right");
 		else		spriteAnim = m_SubTileAnimationMap.at("point_right");
 		break;
 	case DIRECTION::UP:
 		m_position.m_y -= pixel;
-		if (test)	spriteAnim = m_SubTileAnimationMap.at("walk_up");
+		// m_clock.getElapsedTime()
+		if (toggleAnim)	spriteAnim = m_SubTileAnimationMap.at("walk_up");
 		else		spriteAnim = m_SubTileAnimationMap.at("point_up");
 		break;
 	default:
 		break;
 	}
-	test = !test;
+	toggleAnim = !toggleAnim;
 
 	m_sprite.setTextureRect(
 		sf::IntRect(

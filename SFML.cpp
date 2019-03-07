@@ -40,13 +40,16 @@ int main()
 
 
 
-	sf::RenderWindow window(sf::VideoMode(512*factor, 512* factor), "My 2d Drawings/Sprites");
-	
+	sf::RenderWindow window(sf::VideoMode(512*factor, 512* factor), "SFML Sprites and Stuff");
+	window.setVerticalSyncEnabled(true); // to avoid visual artifacts such as tearing
+	// After above call, your application will run at the same frequency as the monitor's refresh rate. 
+	// window.setFramerateLimit(60); // force to use max fps
+
 	// create the particle system
 	ParticleSystem particles(1000);
 
 	// create a clock to track the elapsed time
-	sf::Clock clock, playerClock;
+	sf::Clock clock;
 
 	Player player(factor);
 	player.setFrequency(10);
@@ -56,11 +59,49 @@ int main()
 	{
 		// check all the window's events that were triggered since the last iteration of the loop
 		sf::Event event;
+
+
 		while (window.pollEvent(event))
 		{
-			// "close requested" event: we close the window
-			if (event.type == sf::Event::Closed)
-				window.close();
+
+			switch (event.type) // event's members are only valid if they match corresponding the event type
+			{
+				// "close requested" event: we close the window
+				case sf::Event::Closed:
+					window.close();
+					break;
+
+					// key pressed
+				case sf::Event::KeyPressed:
+					/*
+					std::cout << "the " << event.key.code << " key was pressed" << std::endl;
+					std::cout << "control:" << event.key.control << std::endl;
+					std::cout << "alt:" << event.key.alt << std::endl;
+					std::cout << "shift:" << event.key.shift << std::endl;
+					std::cout << "system:" << event.key.system << std::endl;
+
+					if (event.key.code == sf::Keyboard::W)
+					{
+
+					}
+					if (event.key.code == sf::Keyboard::A)
+					{
+
+					}
+					if (event.key.code == sf::Keyboard::S)
+					{
+
+					}
+					if (event.key.code == sf::Keyboard::D)
+					{
+
+					}*/
+					break;
+
+					// we don't process other types of events
+				default:
+					break;
+			}
 		}
 
 		//boost::filesystem::path full_path(boost::filesystem::current_path());
@@ -94,13 +135,11 @@ int main()
 		window.draw(map);
 		window.draw(particles);
 
-		sf::Time elapsedTimePlayer = playerClock.getElapsedTime();
-		if (elapsedTimePlayer.asSeconds() >= 0.2f) {
-			// std::cout << elapsedTimePlayer.asSeconds() << std::endl;
-			player.move(DIRECTION::RIGHT, 15);
-			playerClock.restart();
-		}
+		player.checkKeyboardInput();
 		window.draw(player);
+
+
+
 
 		/////////////////////////////////////////////////////////////
 		// draw everything here...
