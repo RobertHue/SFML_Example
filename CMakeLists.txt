@@ -3,8 +3,10 @@ cmake_minimum_required (VERSION 3.8 FATAL_ERROR)
 
 # Define the project name
 set(PROJECT_NAME "SFML sprite example")
-project($PROJECT_NAME VERSION 0.1 LANGUAGES CXX)
+set(EXECUTABLE_NAME "SFML sprite example")
+project(${PROJECT_NAME} VERSION 0.1 LANGUAGES CXX)
 
+#generate a message
 message(STATUS "~~~ ${PROJECT_NAME} v${PROJECT_VERSION} ~~~")
 message(STATUS "Target: ${CMAKE_SYSTEM_PROCESSOR} (${CMAKE_SYSTEM_NAME})")
 message(STATUS "Build Type : ${CMAKE_BUILD_TYPE}")
@@ -12,20 +14,26 @@ message(STATUS "Build Type : ${CMAKE_BUILD_TYPE}")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 ########################################
-# set some compiler flags
-SET(COMPILER_FLAGS
-	"-std=c++11 -g3 -Wall"
-)
-SET(LINKER_FLAGS
-	""
-)
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${COMPILER_FLAGS}" )
-SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}" )
+# set some compiler flags - seen as bad practice - use visual tool to set these
+# SET(COMPILER_FLAGS
+# 	"-std=c++11 -g3 -Wall"
+# )
+# SET(LINKER_FLAGS
+# 	""
+# )
+# SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${COMPILER_FLAGS}" )
+# SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${LINKER_FLAGS}" )
+
+
+#set cmake module path
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 
 ########################################
 # Add a given directory to those the compiler uses to search for include files
-include_directories( . )
-include_directories (${Boost_INCLUDE_DIRS})
+include_directories("include" )
+include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${SFML_INCLUDE_DIR})
 
 
 
@@ -50,28 +58,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED system window graphics network audio)
 
 
-set(EXECUTABLE_NAME "Test")
 
-########################################
-########################################
-########################################
-if( Boost_FOUND AND SFML_FOUND)
-	message(STATUS "boost-include-dirs : ${Boost_INCLUDE_DIRS}")
-	message(STATUS "sfml-include-dirs : ${SFML_INCLUDE_DIR}")
-	message(STATUS "sfml-exe-name : ${EXECUTABLE_NAME}")
-	message(STATUS "sfml-libraries : ${SFML_LIBRARIES}")
-	message(STATUS "sfml-dependencies : ${SFML_DEPENDENCIES}")
-	message(STATUS "Boost_LIBRARIES : ${Boost_LIBRARIES}")
-	
-	file(GLOB dependencies
-		"*.h"
-		"*.cpp"
-	)
+#set C++ standart
+set (CMAKE_CXX_STANDARD 14)
 
-	include_directories(${Boost_INCLUDE_DIRS} ${SFML_INCLUDE_DIR})	
-	add_executable( ${EXECUTABLE_NAME} ${dependencies}	)	
-	target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${Boost_LIBRARIES})
-endif()
-########################################
-########################################
-########################################
+#add source directory
+add_subdirectory("src")
