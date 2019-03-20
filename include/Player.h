@@ -4,8 +4,6 @@
 #include <unordered_map>
 
 #include "IObject.h"
-#include "Animation.h"
-#include "Controller.h" 
 
 enum class DIRECTION {
 	DOWN, LEFT, UP, RIGHT
@@ -29,7 +27,7 @@ public:
 	};
 
 public:
-	Player(float factor);
+	Player(float factor, const std::string& pathToImage);
 
 	void move(DIRECTION direction, int px);
 
@@ -54,5 +52,4 @@ private:
 	std::unordered_map<std::string, SubTile> m_SubTileAnimationMap;
 
 	sf::Clock m_clock;
-	Controller controller;
 };

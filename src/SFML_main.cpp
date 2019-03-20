@@ -8,9 +8,15 @@
 #include "TileMap.h"
 #include "Player.h"
 
+#include <boost/filesystem.hpp>
+
 
 int main()
 {
+	boost::filesystem::path full_path(boost::filesystem::current_path());
+	std::cout << "Current path is : " << full_path << std::endl;
+
+
 	float factor = 2.f;
 	// define the level with an array of tile indices
 	const int level[] =
@@ -35,7 +41,7 @@ int main()
 
 	// create the tilemap from the level definition
 	TileMap map;
-	if (!map.load("..\\graphics-vertex-array-tilemap-tileset.png", sf::Vector2u(32, 32), level, 16, 16))
+	if (!map.load("..\\..\\graphics-vertex-array-tilemap-tileset.png", sf::Vector2u(32, 32), level, 16, 16))
 		return -1;
 
 
@@ -51,7 +57,7 @@ int main()
 	// create a clock to track the elapsed time
 	sf::Clock clock;
 
-	Player player(factor);
+	Player player(factor, "..\\..\\Link.png");
 	player.setFrequency(10);
 
 	// run the program as long as the window is open
@@ -79,23 +85,7 @@ int main()
 					std::cout << "alt:" << event.key.alt << std::endl;
 					std::cout << "shift:" << event.key.shift << std::endl;
 					std::cout << "system:" << event.key.system << std::endl;
-
-					if (event.key.code == sf::Keyboard::W)
-					{
-
-					}
-					if (event.key.code == sf::Keyboard::A)
-					{
-
-					}
-					if (event.key.code == sf::Keyboard::S)
-					{
-
-					}
-					if (event.key.code == sf::Keyboard::D)
-					{
-
-					}*/
+					*/
 					break;
 
 					// we don't process other types of events

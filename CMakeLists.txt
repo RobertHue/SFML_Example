@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.8 FATAL_ERROR)
 
 # Define the project name
 set(PROJECT_NAME "SFML sprite example")
-set(EXECUTABLE_NAME "SFML sprite example")
+set(EXECUTABLE_NAME "SFML_test")
 project(${PROJECT_NAME} VERSION 0.1 LANGUAGES CXX)
 
 #generate a message

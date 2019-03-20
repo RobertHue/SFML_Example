@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-Player::Player(float factor)
+Player::Player(float factor, const std::string& pathToImage)
 	:
 	m_name("TestName"),
 	m_health(100),
@@ -14,7 +14,7 @@ Player::Player(float factor)
 	m_clock(sf::Clock())
 {
 
-	boost::filesystem::path fs_path("..\\Link.png");
+	boost::filesystem::path fs_path(pathToImage);
 	
 	if (!m_texture.loadFromFile(fs_path.string())) {
 		// error...
